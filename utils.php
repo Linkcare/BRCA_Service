@@ -59,12 +59,16 @@ function getQuestionId($xml, $row, $dataCode) {
  *
  * @param SimpleXMLElement $xml
  * @param string $dataCode
- * @return int|NULL
+ * @return string
  */
 function getArrayRef($xml, $dataCode) {
     foreach ($xml->data->questions->question as $q) {
         if ($q->data_code == $dataCode && $q->row) {
-            return intval("" . $q->order);
+            if ($q->array_ref) {
+                return trim($q->array_ref);
+            } else {
+                return trim($q->order);
+            }
         }
     }
 
@@ -360,7 +364,7 @@ function service_log($log_msg) {
     $txt = "Date:" . date("d-m-Y H:i:s") . " $log_msg";
     error_log($txt);
     if (is_dir("logs/")) {
-        file_put_contents("logs/" . date("Y-m-d") . "$txt\n", FILE_APPEND);
+        file_put_contents("logs/" . date("Y-m-d"), "$txt\n", FILE_APPEND);
     }
 }
 

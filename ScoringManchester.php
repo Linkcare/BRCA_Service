@@ -306,7 +306,6 @@ class ScoringManchester {
             foreach ($r->antecedents as $a) {
                 $rowNode = createSubnode($xmlSetAnswers, $arrayNode, "row");
                 // In array questions, only the fist question of a row is returned until it has any value
-                addNodeQuestion($xmlSetAnswers, $rowNode, ScoringManchester::Q_PATERNAL_BRCA1, $score["paternal"]["brca1"]);
                 addNodeQuestion($xmlSetAnswers, $rowNode, ScoringManchester::Q_RELATIVE, $r->relativeCode);
 
                 addNodeQuestion($xmlSetAnswers, $rowNode, ScoringManchester::Q_NAME, $r->relativeName);

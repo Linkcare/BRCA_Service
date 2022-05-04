@@ -259,7 +259,7 @@ class ScoringPedigreeAssessment {
 
         $assessment = null;
         $finalResult = $this->isPositive($assessment);
-        addNodeQuestion($xmlSetAnswers, $root, ScoringPedigreeAssessment::Q_ASSESSMENT, $assessment);
+        addNodeQuestion($xmlSetAnswers, $root, ScoringPedigreeAssessment::Q_ASSESSMENT, $finalResult);
         addNodeQuestion($xmlSetAnswers, $root, ScoringPedigreeAssessment::Q_SCORING_RESULT, $finalResult ? "1" : "2");
 
         $xmlStr = $xmlSetAnswers->SaveXML();
