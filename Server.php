@@ -68,17 +68,16 @@ function service_brca_scoring($form_id, $scoring_task_id = null, $endpoint = "",
     }
 
     // SET TIMEZONE FOR EACH CALL:
-    $error = null;
     $service_result = "OK";
     try {
-        $error = calculateScoring($client, $_SESSION["session"], $form_id, $scoring_task_id);
-        if ($error) {
-            service_log($error);
+        $errorMsg = calculateScoring($client, $_SESSION["session"], $form_id, $scoring_task_id);
+        if ($errorMsg) {
+            service_log($errorMsg);
             $service_result = "KO";
         }
     } catch (SoapFault $fault) {
-        $error = "SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})";
-        service_log($error);
+        $errorMsg = "SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})";
+        service_log($errorMsg);
         $service_result = "KO";
     }
 
@@ -167,6 +166,12 @@ function calculateScoring($client, $sessionToken, $formId, $scoringTaskId = null
         list($xmlSetAnswers, $root) = createAnswersXML();
         $xmlStr = $xmlSetAnswers->SaveXML();
         $client->form_set_all_answers($sessionToken, $assessmentFormId, $xmlStr, 0);
+    }
+
+    $result = $client->task_insert_by_task_code($sessionToken, $admissionId, 'BRCA.ASSESSMENT');
+    if (!$result || $result["ErrorMsg"]) {
+        // ERROR
+        return $result["ErrorMsg"];
     }
 
     return ("");
