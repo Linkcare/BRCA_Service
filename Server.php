@@ -165,16 +165,15 @@ function calculateScoring($client, $sessionToken, $formId, $scoringTaskId = null
     if ($assessmentFormId) {
         list($xmlSetAnswers, $root) = createAnswersXML();
         $xmlStr = $xmlSetAnswers->SaveXML();
-        $client->form_set_all_answers($sessionToken, $assessmentFormId, $xmlStr, 0);
+        $result = $client->form_set_all_answers($sessionToken, $assessmentFormId, $xmlStr, 0);
+        if ($result["ErrorMsg"]) {
+            return 'Error updating ASSESSMENT TASK: ' . $result["ErrorMsg"];
+        }
+    } else {
+        return 'Could not update ASSESSMENT TASK because it was not found';
     }
 
-    $result = $client->task_insert_by_task_code($sessionToken, $admissionId, 'BRCA.ASSESSMENT');
-    if (!$result || $result["ErrorMsg"]) {
-        // ERROR
-        return $result["ErrorMsg"];
-    }
-
-    return ("");
+    return '';
 }
 
 error_reporting(0);
