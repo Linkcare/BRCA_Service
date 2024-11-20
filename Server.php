@@ -43,7 +43,7 @@ function service_brca_scoring($form_id, $scoring_task_id = null, $endpoint = "",
     $client = new SoapClient(null, ['location' => $endpoint, 'uri' => $uri, "connection_timeout" => 10]);
     try {
         $date = currentDate($timezone);
-        $result = $client->session_init($GLOBALS["USER"], $GLOBALS["PWD"], null, null, null, null, null, $date);
+        $result = $client->session_init($GLOBALS["USER"], $GLOBALS["PWD"], null, null, null, '2.7.32', null, $date);
         if (!$result["token"]) {
             service_log("session_init error " . $result["ErrorMsg"]);
             return ["result" => "", "ErrorMsg" => $result["ErrorMsg"]];
@@ -116,7 +116,7 @@ function calculateScoring($client, $sessionToken, $formId, $scoringTaskId = null
     if (!$scoringTaskId) {
         // Insert Scoring TASK if necessary
         $result = $client->task_insert_by_task_code($sessionToken, $admissionId, SCORE_TASK_CODE);
-        if (!$result) {
+        if (!$result || $result["ErrorMsg"]) {
             $errmsg = "ERROR inserting TASK 'BRCA_MANCHESTER_SCORE')";
             service_log($errmsg);
             return $errmsg;

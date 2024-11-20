@@ -170,13 +170,13 @@ function setRoleService($client, $sessionToken, $taskId) {
     <assignments>
     <assignment>
     <team>
-    <id></id>
+    <ref></ref>
     </team>
     <role>
-    <id>24</id>
+    <ref>24</ref>
     </role>
     <user>
-    <id></id>
+    <ref></ref>
     </user>
     </assignment>
     </assignments>
