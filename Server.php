@@ -51,9 +51,9 @@ function service_brca_scoring($form_id, $scoring_task_id = null, $endpoint = "",
             $_SESSION["session"] = $result["token"];
         }
 
-        $result = $client->session_language($_SESSION["session"], $GLOBALS["LANG"]);
+        $result = $client->session_set_language($_SESSION["session"], $GLOBALS["LANG"]);
         if ($result["ErrorMsg"]) {
-            service_log("session_language error " . $result["ErrorMsg"]);
+            service_log("session_set_language error " . $result["ErrorMsg"]);
             return ["result" => "", "ErrorMsg" => $result["ErrorMsg"]];
         }
 
